@@ -5,7 +5,8 @@
     "description":  "plugin template for CommonLibSSE-NG, used with SKSEPlugins workspace setup.",
     "dependencies":  [
                          "spdlog",
-                         "nlohmann-json"
+                         "nlohmann-json",
+                         "xbyak"
                      ],
     "features":  {
                      "mo2-install":  {
