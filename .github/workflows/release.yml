@@ -32,7 +32,8 @@ jobs:
             -DENABLE_SKYRIM_AE=ON `
             -DENABLE_SKYRIM_SE=ON `
             -DENABLE_SKYRIM_VR=ON `
-            -DSKSE_SUPPORT_XBYAK=ON
+            -DSKSE_SUPPORT_XBYAK=ON `
+            -DBUILD_TESTS=OFF
 
       - name: Build
         run: cmake --build build --config Release --parallel
