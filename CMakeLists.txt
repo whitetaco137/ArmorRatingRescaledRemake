@@ -51,8 +51,8 @@ source_group(
 )
 
 # dependencies
-add_subdirectory($ENV{CommonLibSSEPath} CommonLibSSE)
-add_subdirectory($ENV{DKUtilPath} DKUtil)
+add_subdirectory(extern/CommonLibSSE-NG CommonLibSSE)
+add_subdirectory(extern/DKUtil DKUtil)
 find_package(spdlog CONFIG REQUIRED)
 
 # cmake target
@@ -127,16 +127,18 @@ target_precompile_headers(
 		src/PCH.h
 )
 
-# post build event
-add_custom_command(
-	TARGET 
-		${PROJECT_NAME}
-	POST_BUILD
-		COMMAND 
-			powershell -NoProfile -ExecutionPolicy Bypass -File "${CMAKE_CURRENT_SOURCE_DIR}/!Update.ps1" "COPY" "${PROJECT_VERSION}" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(ConfigurationName)" "${PROJECT_NAME}"
-		COMMENT 
-			"Calling post build control tool"
-)
+# post build event - skipped in CI (GUI requires interactive session)
+if(NOT DEFINED ENV{CI})
+	add_custom_command(
+		TARGET
+			${PROJECT_NAME}
+		POST_BUILD
+			COMMAND
+				powershell -NoProfile -ExecutionPolicy Bypass -File "${CMAKE_CURRENT_SOURCE_DIR}/!Update.ps1" "COPY" "${PROJECT_VERSION}" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(ConfigurationName)" "${PROJECT_NAME}"
+			COMMENT
+				"Calling post build control tool"
+	)
+endif()
 
 # called via !Rebuild.ps1
 if(DEFINED GROUP)

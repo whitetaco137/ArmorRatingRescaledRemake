@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure CMake
+        run: |
+          cmake -B build `
+            -G "Visual Studio 17 2022" -A x64 `
+            -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake" `
+            -DVCPKG_TARGET_TRIPLET=x64-windows-static-md `
+            -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" `
+            -DENABLE_SKYRIM_AE=ON `
+            -DENABLE_SKYRIM_SE=ON `
+            -DENABLE_SKYRIM_VR=ON `
+            -DSKSE_SUPPORT_XBYAK=ON
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Stage artifacts
+        run: |
+          New-Item -ItemType Directory -Force -Path staging/SKSE/Plugins | Out-Null
+          Copy-Item build/Release/ArmorRatingRescaledRemake.dll staging/SKSE/Plugins/
+          Get-ChildItem -Path . -MaxDepth 1 -Include *.toml, *.ini |
+            Copy-Item -Destination staging/SKSE/Plugins/
+
+      - name: Package
+        run: |
+          $tag = '${{ github.ref_name }}'
+          Compress-Archive -Path staging/* -DestinationPath "ArmorRatingRescaledRemake-${tag}.zip" -Force
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ArmorRatingRescaledRemake-*.zip
+          generate_release_notes: true
