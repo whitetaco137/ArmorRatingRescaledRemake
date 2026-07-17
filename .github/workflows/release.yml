@@ -56,7 +56,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path staging/SKSE/Plugins | Out-Null
           Copy-Item build/Release/ArmorRatingRescaledRemake.dll staging/SKSE/Plugins/
-          Get-ChildItem -Path . -MaxDepth 1 -Include *.toml, *.ini |
+          Get-ChildItem -Path . -Include *.toml, *.ini |
             Copy-Item -Destination staging/SKSE/Plugins/
 
       - name: Package
