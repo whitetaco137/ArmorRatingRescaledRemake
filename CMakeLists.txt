@@ -93,7 +93,6 @@ if (MSVC)
 		${PROJECT_NAME}
 		PRIVATE
 			/MP
-			/await
 			/W0
 			/WX
 			/permissive-
