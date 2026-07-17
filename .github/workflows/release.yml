@@ -11,17 +11,12 @@ jobs:
     runs-on: windows-2022
     permissions:
       contents: write
-    env:
-      SCCACHE_GHA_ENABLED: "true"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.9
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
@@ -36,9 +31,6 @@ jobs:
             -DVCPKG_TARGET_TRIPLET=x64-windows-static-md `
             -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" `
             -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=OFF `
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE=OFF `
-            -DCMAKE_C_COMPILER_LAUNCHER=sccache `
-            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache `
             -DENABLE_SKYRIM_AE=ON `
             -DENABLE_SKYRIM_SE=ON `
             -DENABLE_SKYRIM_VR=ON `
@@ -47,10 +39,6 @@ jobs:
 
       - name: Build
         run: cmake --build build --config Release --parallel
-
-      - name: Show sccache stats
-        if: always()
-        run: sccache --show-adv-stats
 
       - name: Stage artifacts
         run: |
