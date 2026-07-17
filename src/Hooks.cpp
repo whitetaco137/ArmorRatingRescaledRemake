@@ -79,6 +79,7 @@ namespace Hooks
 	// vanillaResist = VisibleArmorValue/100.0 * fArmorScalingFactor (default 0.12)
 	// hiddenResist = count_worn(helmet armor boots gauntlets shield) * fArmorBaseFactor (default 0.03)
 	// result: part of damage that would be averted, before armor cap (1.0 = all)
+	#pragma optimize("", off)
 	float __cdecl Hook_RescaleArmor(const float a_hidden, const float a_vanilla)
 	{
 		if (a_vanilla < 0) {
@@ -94,6 +95,7 @@ namespace Hooks
 
 		return armorRating;
 	}
+	#pragma optimize("", on)
 
 
 	void Install()
