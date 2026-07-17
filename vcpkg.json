@@ -1,17 +1,18 @@
 {
-    "$schema":  "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
-    "name":  "armorratingrescaledremake",
-    "version-string":  "1.0.2",
-    "description":  "plugin template for CommonLibSSE-NG, used with SKSEPlugins workspace setup.",
-    "dependencies":  [
-                         "spdlog",
-                         "nlohmann-json",
-                         "xbyak",
-                         "rapidcsv"
-                     ],
-    "features":  {
-                     "mo2-install":  {
-                                         "description":  "ArmorRatingRescaledRemake"
-                                     }
-                 }
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+    "name": "armorratingrescaledremake",
+    "version-string": "1.0.2",
+    "description": "plugin template for CommonLibSSE-NG, used with SKSEPlugins workspace setup.",
+    "dependencies": [
+        "spdlog",
+        "nlohmann-json",
+        "xbyak",
+        "rapidcsv",
+        "simpleini"
+    ],
+    "features": {
+        "mo2-install": {
+            "description": "ArmorRatingRescaledRemake"
+        }
+    }
 }
