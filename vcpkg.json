@@ -4,7 +4,8 @@
     "version-string":  "1.0.2",
     "description":  "plugin template for CommonLibSSE-NG, used with SKSEPlugins workspace setup.",
     "dependencies":  [
-                         "spdlog"
+                         "spdlog",
+                         "nlohmann-json"
                      ],
     "features":  {
                      "mo2-install":  {
